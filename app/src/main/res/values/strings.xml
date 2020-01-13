@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">arefacelib</string>
+    <string name="init_failed">初始化失败,code is %d</string>
+</resources>
