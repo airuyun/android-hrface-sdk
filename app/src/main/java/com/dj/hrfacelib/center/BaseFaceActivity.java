@@ -112,13 +112,6 @@ public abstract class BaseFaceActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!checkPermissions(NEEDED_PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, NEEDED_PERMISSIONS, ACTION_REQUEST_PERMISSIONS);
-        } else {
-            initView();
-            initEngine();
-            initCamera();
-        }
     }
 
     @Override
@@ -162,13 +155,13 @@ public abstract class BaseFaceActivity extends Activity {
         }
 
         compareResultList = new ArrayList<>();
-        /*if (!checkPermissions(NEEDED_PERMISSIONS)) {
+        if (!checkPermissions(NEEDED_PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, NEEDED_PERMISSIONS, ACTION_REQUEST_PERMISSIONS);
         } else {
             initView();
             initEngine();
             initCamera();
-        }*/
+        }
     }
 
     private void hideMenu() {

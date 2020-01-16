@@ -60,21 +60,23 @@ public class CameraHelper implements Camera.PreviewCallback {
      * 初始化打开相机
      */
     private void initCamera() {
-        //相机数量为2则打开1,1则打开0,相机ID 1为前置，0为后置
-        mCameraId = Camera.getNumberOfCameras() - 1;
-        //若指定了相机ID且该相机存在，则打开指定的相机
-        if (specificCameraId != null && specificCameraId <= mCameraId) {
-            mCameraId = specificCameraId;
-        }
-
-        //没有相机
-        if (mCameraId == -1) {
-            if (cameraListener != null) {
-                cameraListener.onCameraError(new Exception("camera not found"));
+        if(mCamera == null) {
+            //相机数量为2则打开1,1则打开0,相机ID 1为前置，0为后置
+            mCameraId = Camera.getNumberOfCameras() - 1;
+            //若指定了相机ID且该相机存在，则打开指定的相机
+            if (specificCameraId != null && specificCameraId <= mCameraId) {
+                mCameraId = specificCameraId;
             }
-            return;
+
+            //没有相机
+            if (mCameraId == -1) {
+                if (cameraListener != null) {
+                    cameraListener.onCameraError(new Exception("camera not found"));
+                }
+                return;
+            }
+            mCamera = Camera.open(mCameraId);
         }
-        mCamera = Camera.open(mCameraId);
     }
 
     public void start() {
@@ -94,6 +96,7 @@ public class CameraHelper implements Camera.PreviewCallback {
                 return;
             }
             mCamera = Camera.open(mCameraId);*/
+            initCamera();
             displayOrientation = getCameraOri(rotation);
             mCamera.setDisplayOrientation(displayOrientation);
             try {
