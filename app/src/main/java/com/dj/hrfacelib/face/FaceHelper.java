@@ -1,5 +1,6 @@
 package com.dj.hrfacelib.face;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Rect;
@@ -28,6 +29,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class FaceHelper {
     private static final String TAG = "FaceHelper";
+    private Context context;
     private FaceEngine faceEngine;
 
     private Camera.Size previewSize;
@@ -55,6 +57,7 @@ public class FaceHelper {
 
 
     private FaceHelper(Builder builder) {
+        context = builder.context;
         faceEngine = builder.faceEngine;
         faceListener = builder.faceListener;
         currentTrackId = builder.currentTrackId;
@@ -224,10 +227,9 @@ public class FaceHelper {
             matrix.postRotate(rotition);
 
             Bitmap rotatedRgbBitmap = Bitmap.createBitmap(cropBitmap, 0, 0, cropBitmap.getWidth(), cropBitmap.getHeight(), matrix, false);
-            ImageUtil.deleteAllFacePicture(Environment.getExternalStorageDirectory() + "/CstPay/face_picture_cache/");
-            return ImageUtil.saveBitmap(Environment.getExternalStorageDirectory() + "/CstPay/face_picture_cache/" + trackId + ".jpg", bitmap);
+            ImageUtil.deleteAllFacePicture(Environment.getExternalStorageDirectory() + context.getPackageName() + "/face_picture_cache/");
+            return ImageUtil.saveBitmap(Environment.getExternalStorageDirectory() + context.getPackageName() + "/face_picture_cache/" + trackId + ".jpg", bitmap);
         }
-
     }
 
 
@@ -318,13 +320,15 @@ public class FaceHelper {
     }
 
     public static final class Builder {
+        private Context context;
         private FaceEngine faceEngine;
         private Camera.Size previewSize;
         private FaceListener faceListener;
         private int frThreadNum;
         private int currentTrackId;
 
-        public Builder() {
+        public Builder(Context context) {
+            this.context = context;
         }
 
         public Builder faceEngine(FaceEngine val) {

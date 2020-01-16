@@ -112,6 +112,13 @@ public abstract class BaseFaceActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (!checkPermissions(NEEDED_PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, NEEDED_PERMISSIONS, ACTION_REQUEST_PERMISSIONS);
+        } else {
+            initView();
+            initEngine();
+            initCamera();
+        }
     }
 
     @Override
@@ -155,13 +162,13 @@ public abstract class BaseFaceActivity extends Activity {
         }
 
         compareResultList = new ArrayList<>();
-        if (!checkPermissions(NEEDED_PERMISSIONS)) {
+        /*if (!checkPermissions(NEEDED_PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, NEEDED_PERMISSIONS, ACTION_REQUEST_PERMISSIONS);
         } else {
             initView();
             initEngine();
             initCamera();
-        }
+        }*/
     }
 
     private void hideMenu() {
@@ -225,7 +232,7 @@ public abstract class BaseFaceActivity extends Activity {
                 drawHelper = new DrawHelper(previewSize.width, previewSize.height, getPrewView().getWidth(), getPrewView().getHeight(), displayOrientation
                         , cameraId, isMirror, isPosAndNege());
 
-                faceHelper = new FaceHelper.Builder()
+                faceHelper = new FaceHelper.Builder(getApplicationContext())
                         .faceEngine(faceEngine)
                         .frThreadNum(MAX_DETECT_NUM)
                         .previewSize(previewSize)
