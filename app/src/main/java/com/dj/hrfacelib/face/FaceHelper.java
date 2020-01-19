@@ -19,6 +19,7 @@ import com.dj.hrfacelib.util.DrawInfo;
 import com.dj.hrfacelib.util.ImageUtil;
 import com.dj.hrfacelib.util.TrackUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -227,8 +228,10 @@ public class FaceHelper {
             matrix.postRotate(rotition);
 
             Bitmap rotatedRgbBitmap = Bitmap.createBitmap(cropBitmap, 0, 0, cropBitmap.getWidth(), cropBitmap.getHeight(), matrix, false);
-            ImageUtil.deleteAllFacePicture(Environment.getExternalStorageDirectory() + context.getPackageName() + "/face_picture_cache/");
-            return ImageUtil.saveBitmap(Environment.getExternalStorageDirectory() + context.getPackageName() + "/face_picture_cache/" + trackId + ".jpg", bitmap);
+            String snapshotPath = Environment.getExternalStorageDirectory() + File.separator + context.getPackageName() + "/face_picture_cache/";
+            Log.i("TJS", "======rotatedRgbBitmap = " + rotatedRgbBitmap);
+            ImageUtil.deleteAllFacePicture(snapshotPath);
+            return ImageUtil.saveBitmap(snapshotPath + trackId + ".jpg", bitmap);
         }
     }
 
